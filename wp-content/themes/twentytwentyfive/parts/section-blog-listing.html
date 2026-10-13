@@ -1,0 +1,31 @@
+<!-- Blog listing section with pagination -->
+<!-- wp:group {"className":"section-wrap reveal-on-scroll"} -->
+<div class="wp-block-group section-wrap reveal-on-scroll">
+	<!-- wp:heading {"className":"section-title"} --><h2 class="wp-block-heading section-title">Blog</h2><!-- /wp:heading -->
+
+	<!-- wp:query {"query":{"perPage":6,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","inherit":true},"displayLayout":{"type":"grid","columns":3}} -->
+	<div class="wp-block-query">
+		<!-- wp:post-template -->
+		<!-- wp:group {"className":"blog-card"} -->
+		<div class="wp-block-group blog-card">
+			<!-- wp:post-featured-image {"isLink":true,"height":"210px"} /-->
+			<!-- wp:post-title {"isLink":true,"level":3} /-->
+			<!-- wp:post-excerpt {"moreText":"Read More"} /-->
+			<!-- wp:read-more {"content":"Read More","isLink":true} /-->
+		</div>
+		<!-- /wp:group -->
+		<!-- /wp:post-template -->
+
+		<!-- wp:query-pagination {"layout":{"type":"flex","justifyContent":"center"}} -->
+		<!-- wp:query-pagination-previous /-->
+		<!-- wp:query-pagination-numbers /-->
+		<!-- wp:query-pagination-next /-->
+		<!-- /wp:query-pagination -->
+
+		<!-- wp:query-no-results -->
+		<!-- wp:paragraph --><p>No posts found.</p><!-- /wp:paragraph -->
+		<!-- /wp:query-no-results -->
+	</div>
+	<!-- /wp:query -->
+</div>
+<!-- /wp:group -->
