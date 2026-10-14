@@ -3,7 +3,8 @@
 # so "Review deployments" shows both checkboxes: staging and production.
 # Approve staging first, test it, then approve production.
 # Each environment holds its own secrets FTP_SERVER, FTP_USERNAME, FTP_PASSWORD
-# and variable SITE_URL (Settings > Environments > <name>).
+# and variables SITE_URL and SERVER_DIR (theme folder on the FTP server, e.g.
+# /htdocs/wp-content/themes/powerco/) under Settings > Environments > <name>.
 name: Deploy theme
 
 on:
@@ -35,9 +36,10 @@ jobs:
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
           FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
           SITE_URL: ${{ vars.SITE_URL }}
+          SERVER_DIR: ${{ vars.SERVER_DIR }}
         run: |
           missing=0
-          for name in FTP_SERVER FTP_USERNAME FTP_PASSWORD SITE_URL; do
+          for name in FTP_SERVER FTP_USERNAME FTP_PASSWORD SITE_URL SERVER_DIR; do
             if [ -z "${!name}" ]; then
               echo "::error::$name is not set. Add it under Settings > Environments > ${{ matrix.target }}."
               missing=1
@@ -45,7 +47,7 @@ jobs:
               echo "$name is set"
             fi
           done
-          echo "Deploying to ${{ matrix.target }}: $SITE_URL"
+          echo "Deploying to ${{ matrix.target }}: $SITE_URL -> $SERVER_DIR"
           exit $missing
 
       - name: Checkout
@@ -60,5 +62,5 @@ jobs:
           protocol: ftp
           port: 21
           local-dir: ./wp-content/themes/powerco/
-          server-dir: /htdocs/wp-content/themes/powerco/
+          server-dir: ${{ vars.SERVER_DIR }}
           dangerous-clean-slate: false
