@@ -33,7 +33,7 @@ function powerco_defaults() {
 		'email'         => 'info@example.com',
 		'address'       => '123 Industrial Way, Anytown, ST 00000',
 		'hero_title'    => 'prasad Empowering a Sustainable Future with Reliable Custom Electrical Solutions',
-		'hero_text'     => ' Engineered power distribution products for ports, terminals, industry and entertainment.',
+		'hero_text'     => 'Engineered power distribution products for ports, terminals, industry and entertainment.',
 		'linkedin'      => '#',
 		'youtube'       => '#',
 	);
