@@ -32,8 +32,8 @@ function powerco_defaults() {
 		'phone_main'    => '+1 (555) 555-0123',
 		'email'         => 'info@example.com',
 		'address'       => '123 Industrial Way, Anytown, ST 00000',
-		'hero_title'    => ' Empowering a Sustainable Future with Reliable Custom Electrical Solutions',
-		'hero_text'     => 'branch name Engineered power distribution products for ports, terminals, industry and entertainment.',
+		'hero_title'    => 'branch name Empowering a Sustainable Future with Reliable Custom Electrical Solutions',
+		'hero_text'     => 'Engineered power distribution products for ports, terminals, industry and entertainment.',
 		'linkedin'      => '#',
 		'youtube'       => '#',
 	);
