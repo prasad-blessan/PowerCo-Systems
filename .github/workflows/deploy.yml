@@ -1,27 +1,32 @@
-# Deploys the PowerCo theme over FTP:
-#   push to `staging` -> "staging" environment    (deploys automatically)
-#   push to `main`    -> "production" environment (waits for reviewer approval)
+# Deploys the PowerCo theme over FTP when theme changes are merged into main.
+# One run creates a deploy job per environment; each waits for reviewer approval,
+# so "Review deployments" shows both checkboxes: staging and production.
+# Approve staging first, test it, then approve production.
 # Each environment holds its own secrets FTP_SERVER, FTP_USERNAME, FTP_PASSWORD
 # and variable SITE_URL (Settings > Environments > <name>).
 name: Deploy theme
 
 on:
   push:
-    branches: [main, staging]
+    branches: [main]
     paths:
       - 'wp-content/themes/powerco/**'
   workflow_dispatch:
 
 concurrency:
-  group: deploy-${{ github.ref_name }}
+  group: deploy-main
   cancel-in-progress: false
 
 jobs:
   deploy:
-    if: github.ref_name == 'main' || github.ref_name == 'staging'
+    name: deploy (${{ matrix.target }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [staging, production]
     environment:
-      name: ${{ github.ref_name == 'main' && 'production' || 'staging' }}
+      name: ${{ matrix.target }}
       url: ${{ vars.SITE_URL }}
     steps:
       - name: Check FTP settings
@@ -34,13 +39,13 @@ jobs:
           missing=0
           for name in FTP_SERVER FTP_USERNAME FTP_PASSWORD SITE_URL; do
             if [ -z "${!name}" ]; then
-              echo "::error::$name is not set. Add it under Settings > Environments > ${{ github.ref_name == 'main' && 'production' || 'staging' }}."
+              echo "::error::$name is not set. Add it under Settings > Environments > ${{ matrix.target }}."
               missing=1
             else
               echo "$name is set"
             fi
           done
-          echo "Deploying ${{ github.ref_name }} to $SITE_URL"
+          echo "Deploying to ${{ matrix.target }}: $SITE_URL"
           exit $missing
 
       - name: Checkout
