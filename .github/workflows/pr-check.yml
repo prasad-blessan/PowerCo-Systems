@@ -1,10 +1,10 @@
-# Runs on every pull request into staging or main: checks theme PHP files for
-# syntax errors so broken code can't be merged and deployed.
+# Runs on every pull request into main: checks theme PHP files for syntax errors
+# so broken code can't be merged and deployed.
 name: PR check
 
 on:
   pull_request:
-    branches: [main, staging]
+    branches: [main]
 
 jobs:
   php-lint:
