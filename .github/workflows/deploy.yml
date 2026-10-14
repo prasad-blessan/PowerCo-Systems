@@ -1,6 +1,7 @@
 # Deploys the PowerCo theme to the live site (https://powerco.free.nf) over FTP
-# whenever theme files change on main. Credentials come from repo secrets:
-#   FTP_SERVER, FTP_USERNAME, FTP_PASSWORD
+# when theme changes are merged into main (via pull request). The job uses the
+# "production" environment, so it waits for a required reviewer to approve.
+# Credentials come from repo secrets: FTP_SERVER, FTP_USERNAME, FTP_PASSWORD
 name: Deploy theme to live site
 
 on:
@@ -17,6 +18,9 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://powerco.free.nf
     steps:
       - name: Check FTP settings
         env:

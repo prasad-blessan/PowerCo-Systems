@@ -1,0 +1,22 @@
+# Runs on every pull request into main: checks theme PHP files for syntax errors
+# so broken code can't be merged and deployed.
+name: PR check
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  php-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: PHP syntax check (theme)
+        run: |
+          status=0
+          for f in $(find wp-content/themes/powerco -name '*.php'); do
+            php -l "$f" || status=1
+          done
+          exit $status
