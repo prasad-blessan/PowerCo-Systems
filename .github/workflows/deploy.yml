@@ -1,42 +1,46 @@
-# Deploys the PowerCo theme to the live site (https://powerco.free.nf) over FTP
-# when theme changes are merged into main (via pull request). The job uses the
-# "production" environment, so it waits for a required reviewer to approve.
-# Credentials come from repo secrets: FTP_SERVER, FTP_USERNAME, FTP_PASSWORD
-name: Deploy theme to live site
+# Deploys the PowerCo theme over FTP:
+#   push to `staging` -> "staging" environment    (deploys automatically)
+#   push to `main`    -> "production" environment (waits for reviewer approval)
+# Each environment holds its own secrets FTP_SERVER, FTP_USERNAME, FTP_PASSWORD
+# and variable SITE_URL (Settings > Environments > <name>).
+name: Deploy theme
 
 on:
   push:
-    branches: [main]
+    branches: [main, staging]
     paths:
       - 'wp-content/themes/powerco/**'
   workflow_dispatch:
 
 concurrency:
-  group: deploy-live
+  group: deploy-${{ github.ref_name }}
   cancel-in-progress: false
 
 jobs:
   deploy:
+    if: github.ref_name == 'main' || github.ref_name == 'staging'
     runs-on: ubuntu-latest
     environment:
-      name: production
-      url: https://powerco.free.nf
+      name: ${{ github.ref_name == 'main' && 'production' || 'staging' }}
+      url: ${{ vars.SITE_URL }}
     steps:
       - name: Check FTP settings
         env:
-          FTP_SERVER: ${{ secrets.FTP_SERVER || vars.FTP_SERVER }}
-          FTP_USERNAME: ${{ secrets.FTP_USERNAME || vars.FTP_USERNAME }}
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
           FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          SITE_URL: ${{ vars.SITE_URL }}
         run: |
           missing=0
-          for name in FTP_SERVER FTP_USERNAME FTP_PASSWORD; do
+          for name in FTP_SERVER FTP_USERNAME FTP_PASSWORD SITE_URL; do
             if [ -z "${!name}" ]; then
-              echo "::error::$name is not set. Add it under Settings > Secrets and variables > Actions > Secrets (Repository secrets)."
+              echo "::error::$name is not set. Add it under Settings > Environments > ${{ github.ref_name == 'main' && 'production' || 'staging' }}."
               missing=1
             else
               echo "$name is set"
             fi
           done
+          echo "Deploying ${{ github.ref_name }} to $SITE_URL"
           exit $missing
 
       - name: Checkout
@@ -45,8 +49,8 @@ jobs:
       - name: Upload theme via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_SERVER || vars.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME || vars.FTP_USERNAME }}
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftp
           port: 21
