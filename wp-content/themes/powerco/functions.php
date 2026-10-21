@@ -110,9 +110,16 @@ function powerco_products() {
 	);
 }
 
+/**
+ * Link to a page by its slug, at any depth (e.g. 'about' finds company/about).
+ */
 function powerco_page_url( $slug ) {
-	$page = get_page_by_path( $slug ) ?: get_page_by_path( 'products/' . $slug );
-	return $page ? get_permalink( $page ) : home_url( '/' );
+	$pages = get_posts( array(
+		'post_type'   => 'page',
+		'name'        => $slug,
+		'numberposts' => 1,
+	) );
+	return $pages ? get_permalink( $pages[0] ) : home_url( '/' );
 }
 
 /**
