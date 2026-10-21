@@ -23,6 +23,8 @@ function powerco_assets() {
 }
 add_action( 'wp_enqueue_scripts', 'powerco_assets' );
 
+require_once get_template_directory() . '/inc/languages.php';
+
 /**
  * Editable company details (Appearance > Customize > Company Info).
  */
@@ -168,7 +170,7 @@ function powerco_language_switcher() {
 	if ( ! function_exists( 'pll_the_languages' ) ) {
 		return;
 	}
-	$langs = pll_the_languages( array( 'raw' => 1, 'hide_if_no_translation' => 0 ) );
+	$langs = pll_the_languages( array( 'raw' => 1, 'hide_if_no_translation' => 0, 'hide_if_empty' => 0 ) );
 	if ( ! $langs || count( $langs ) < 2 ) {
 		return;
 	}
