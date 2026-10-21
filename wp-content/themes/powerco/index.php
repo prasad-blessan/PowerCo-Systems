@@ -5,13 +5,14 @@
 		<h1>
 			<?php
 			if ( is_search() ) {
-				printf( 'Search results for &ldquo;%s&rdquo;', esc_html( get_search_query() ) );
+				/* translators: %s: search terms */
+				printf( esc_html__( 'Search results for “%s”', 'powerco' ), esc_html( get_search_query() ) );
 			} elseif ( is_archive() ) {
 				echo esc_html( wp_strip_all_tags( get_the_archive_title() ) );
 			} elseif ( is_singular() ) {
 				the_title();
 			} else {
-				echo esc_html( get_the_title( get_option( 'page_for_posts' ) ) ?: 'Blog' );
+				echo esc_html( get_the_title( get_option( 'page_for_posts' ) ) ?: __( 'Blog', 'powerco' ) );
 			}
 			?>
 		</h1>
@@ -35,7 +36,7 @@
 			<?php endwhile; ?>
 			<?php the_posts_pagination(); ?>
 		<?php else : ?>
-			<p>Nothing found.</p>
+			<p><?php esc_html_e( 'Nothing found.', 'powerco' ); ?></p>
 		<?php endif; ?>
 	</div>
 </div>

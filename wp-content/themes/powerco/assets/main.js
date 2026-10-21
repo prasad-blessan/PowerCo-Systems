@@ -20,6 +20,14 @@
 		});
 	}
 
+	// Language dropdown: close when clicking outside it
+	var langs = document.querySelector('.lang-switcher');
+	if (langs) {
+		document.addEventListener('click', function (e) {
+			if (langs.open && !langs.contains(e.target)) langs.open = false;
+		});
+	}
+
 	// Testimonials slider
 	var slider = document.querySelector('[data-slider]');
 	if (slider) {

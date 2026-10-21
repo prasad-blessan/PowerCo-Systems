@@ -1,0 +1,203 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PowerCo theme\n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Call us:"
+msgstr "Llámenos:"
+
+msgid "Request a Quote"
+msgstr "Solicitar cotización"
+
+msgid "Careers"
+msgstr "Empleo"
+
+msgid "Search"
+msgstr "Buscar"
+
+msgid "Search…"
+msgstr "Buscar…"
+
+msgid "Menu"
+msgstr "Menú"
+
+msgid "Language"
+msgstr "Idioma"
+
+msgid "Our Products"
+msgstr "Nuestros productos"
+
+msgid "What Our Customers Say"
+msgstr "Lo que dicen nuestros clientes"
+
+msgid "The equipment arrived on schedule and has run flawlessly since installation."
+msgstr "El equipo llegó a tiempo y ha funcionado a la perfección desde su instalación."
+
+msgid "Operations Manager, Container Terminal"
+msgstr "Gerente de Operaciones, Terminal de Contenedores"
+
+msgid "Their engineering team worked with us to design exactly what our facility needed."
+msgstr "Su equipo de ingeniería trabajó con nosotros para diseñar exactamente lo que nuestra planta necesitaba."
+
+msgid "Facilities Director, Manufacturing Plant"
+msgstr "Director de Instalaciones, Planta de Manufactura"
+
+msgid "Outstanding quality and responsive support every step of the way."
+msgstr "Calidad excepcional y soporte atento en cada paso."
+
+msgid "Project Engineer, Port Authority"
+msgstr "Ingeniero de Proyectos, Autoridad Portuaria"
+
+msgid "Reliable power for every show, in every venue, every time."
+msgstr "Energía confiable para cada espectáculo, en cada recinto, siempre."
+
+msgid "Production Manager, Live Events"
+msgstr "Gerente de Producción, Eventos en Vivo"
+
+msgid "A true partner — knowledgeable, flexible and easy to work with."
+msgstr "Un verdadero socio: experto, flexible y fácil de trabajar."
+
+msgid "Procurement Lead, Shipyard"
+msgstr "Jefe de Compras, Astillero"
+
+msgid "Their shore power solution helped us cut emissions at berth significantly."
+msgstr "Su solución de energía en puerto nos ayudó a reducir significativamente las emisiones en el muelle."
+
+msgid "Environmental Manager, Marine Terminal"
+msgstr "Gerente Ambiental, Terminal Marítima"
+
+msgid "Custom panels built right the first time. We will be back."
+msgstr "Paneles a medida hechos bien a la primera. Volveremos."
+
+msgid "Electrical Contractor"
+msgstr "Contratista Eléctrico"
+
+msgid "OWN IT!"
+msgstr "¡HAZLO TUYO!"
+
+msgid "Employee owned."
+msgstr "100% propiedad de los empleados."
+
+msgid "Every team member has a stake in the quality of what we build and the service we deliver."
+msgstr "Cada miembro del equipo participa en la calidad de lo que fabricamos y del servicio que ofrecemos."
+
+msgid "About Us"
+msgstr "Sobre nosotros"
+
+msgid "Our Core Values"
+msgstr "Nuestros valores"
+
+msgid "Integrity"
+msgstr "Integridad"
+
+msgid "Quality"
+msgstr "Calidad"
+
+msgid "Innovation"
+msgstr "Innovación"
+
+msgid "Customer Focus"
+msgstr "Enfoque en el cliente"
+
+msgid "Teamwork"
+msgstr "Trabajo en equipo"
+
+msgid "Sustainability"
+msgstr "Sostenibilidad"
+
+msgid "Join Our Team"
+msgstr "Únase a nuestro equipo"
+
+msgid "Build a career powering a more sustainable future."
+msgstr "Construya una carrera impulsando un futuro más sostenible."
+
+msgid "View Careers"
+msgstr "Ver empleos"
+
+msgid "Contact Us"
+msgstr "Contáctenos"
+
+msgid "Address"
+msgstr "Dirección"
+
+msgid "Phone"
+msgstr "Teléfono"
+
+msgid "Email"
+msgstr "Correo electrónico"
+
+msgid "Toll free:"
+msgstr "Línea gratuita:"
+
+msgid "Intermodal / Reefer"
+msgstr "Intermodal / Refrigerados"
+
+msgid "Shore Power"
+msgstr "Energía en puerto"
+
+msgid "Emergency Power"
+msgstr "Energía de emergencia"
+
+msgid "Entertainment Power"
+msgstr "Energía para entretenimiento"
+
+msgid "Refrigerated Truck-Trailer Shore Power"
+msgstr "Energía en puerto para remolques refrigerados"
+
+msgid "ERTG"
+msgstr "ERTG"
+
+msgid "Shipyard Power"
+msgstr "Energía para astilleros"
+
+msgid "Wayside Power"
+msgstr "Energía ferroviaria"
+
+msgid "Industrial / Portable Power"
+msgstr "Energía industrial / portátil"
+
+msgid "Custom Control Panels"
+msgstr "Paneles de control a medida"
+
+msgid "Phone:"
+msgstr "Teléfono:"
+
+msgid "MADE IN USA"
+msgstr "HECHO EN EE. UU."
+
+msgid "Products"
+msgstr "Productos"
+
+msgid "Have a question?"
+msgstr "¿Tiene alguna pregunta?"
+
+msgid "Our team is ready to help you find the right solution."
+msgstr "Nuestro equipo está listo para ayudarle a encontrar la solución adecuada."
+
+msgid "Request Info"
+msgstr "Solicitar información"
+
+msgid "Copyright"
+msgstr "Derechos de autor"
+
+msgid "Privacy Policy"
+msgstr "Política de privacidad"
+
+msgid "Terms of Use"
+msgstr "Términos de uso"
+
+msgid "Home"
+msgstr "Inicio"
+
+msgid "Search results for “%s”"
+msgstr "Resultados de búsqueda para “%s”"
+
+msgid "Blog"
+msgstr "Blog"
+
+msgid "Nothing found."
+msgstr "No se encontró nada."

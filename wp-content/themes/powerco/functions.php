@@ -4,6 +4,7 @@
  */
 
 function powerco_setup() {
+	load_theme_textdomain( 'powerco', get_template_directory() . '/languages' );
 	add_theme_support( 'title-tag' );
 	add_theme_support( 'post-thumbnails' );
 	add_theme_support( 'custom-logo' );
@@ -17,8 +18,8 @@ add_action( 'after_setup_theme', 'powerco_setup' );
 
 function powerco_assets() {
 	wp_enqueue_style( 'powerco-fonts', 'https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic|Titillium+Web:600&display=swap', array(), null );
-	wp_enqueue_style( 'powerco-style', get_stylesheet_uri(), array(), '1.0' );
-	wp_enqueue_script( 'powerco-main', get_template_directory_uri() . '/assets/main.js', array(), '1.0', true );
+	wp_enqueue_style( 'powerco-style', get_stylesheet_uri(), array(), '1.1' );
+	wp_enqueue_script( 'powerco-main', get_template_directory_uri() . '/assets/main.js', array(), '1.1', true );
 }
 add_action( 'wp_enqueue_scripts', 'powerco_assets' );
 
@@ -39,10 +40,32 @@ function powerco_defaults() {
 	);
 }
 
+/**
+ * Company detail, translated by Polylang (Languages > Translations) when active.
+ */
 function powerco_opt( $key ) {
-	$d = powerco_defaults();
-	return get_theme_mod( $key, $d[ $key ] ?? '' );
+	$d     = powerco_defaults();
+	$value = get_theme_mod( $key, $d[ $key ] ?? '' );
+	return function_exists( 'pll__' ) ? pll__( $value ) : $value;
 }
+
+/**
+ * Customizer texts that differ per language, listed in Languages > Translations.
+ */
+function powerco_translatable_opts() {
+	return array( 'tagline_small', 'address', 'hero_title', 'hero_text' );
+}
+
+function powerco_register_strings() {
+	if ( ! function_exists( 'pll_register_string' ) ) {
+		return;
+	}
+	$d = powerco_defaults();
+	foreach ( powerco_translatable_opts() as $key ) {
+		pll_register_string( 'powerco_' . $key, get_theme_mod( $key, $d[ $key ] ), 'PowerCo theme', in_array( $key, array( 'hero_title', 'hero_text' ), true ) );
+	}
+}
+add_action( 'init', 'powerco_register_strings' );
 
 function powerco_customize( $wp_customize ) {
 	$wp_customize->add_section( 'powerco_info', array( 'title' => 'Company Info', 'priority' => 30 ) );
@@ -97,22 +120,78 @@ function powerco_icon( $name, $size = 34 ) {
  */
 function powerco_products() {
 	return array(
-		'intermodal-reefer'     => array( 'Intermodal / Reefer', 'container' ),
-		'ship-to-shore-power'   => array( 'Shore Power', 'ship' ),
-		'emergency-power'       => array( 'Emergency Power', 'battery' ),
-		'entertainment-power'   => array( 'Entertainment Power', 'music' ),
-		'etru-shore-power'      => array( 'Refrigerated Truck-Trailer Shore Power', 'truck' ),
-		'ertg-disconnect'       => array( 'ERTG', 'crane' ),
-		'shipyard-power'        => array( 'Shipyard Power', 'anchor' ),
-		'wayside-power-cabinets'=> array( 'Wayside Power', 'rail' ),
-		'industrial-portable'   => array( 'Industrial / Portable Power', 'plug' ),
-		'custom-control-panels' => array( 'Custom Control Panels', 'panel' ),
+		'intermodal-reefer'     => array( __( 'Intermodal / Reefer', 'powerco' ), 'container' ),
+		'ship-to-shore-power'   => array( __( 'Shore Power', 'powerco' ), 'ship' ),
+		'emergency-power'       => array( __( 'Emergency Power', 'powerco' ), 'battery' ),
+		'entertainment-power'   => array( __( 'Entertainment Power', 'powerco' ), 'music' ),
+		'etru-shore-power'      => array( __( 'Refrigerated Truck-Trailer Shore Power', 'powerco' ), 'truck' ),
+		'ertg-disconnect'       => array( __( 'ERTG', 'powerco' ), 'crane' ),
+		'shipyard-power'        => array( __( 'Shipyard Power', 'powerco' ), 'anchor' ),
+		'wayside-power-cabinets'=> array( __( 'Wayside Power', 'powerco' ), 'rail' ),
+		'industrial-portable'   => array( __( 'Industrial / Portable Power', 'powerco' ), 'plug' ),
+		'custom-control-panels' => array( __( 'Custom Control Panels', 'powerco' ), 'panel' ),
 	);
 }
 
+/**
+ * Home URL in the current language.
+ */
+function powerco_home_url() {
+	return function_exists( 'pll_home_url' ) ? pll_home_url() : home_url( '/' );
+}
+
+/**
+ * Link to a page by its slug (at any depth), in the current language when Polylang is active.
+ */
 function powerco_page_url( $slug ) {
-	$page = get_page_by_path( $slug ) ?: get_page_by_path( 'products/' . $slug );
-	return $page ? get_permalink( $page ) : home_url( '/' );
+	$pages = get_posts( array(
+		'post_type'   => 'page',
+		'name'        => $slug,
+		'numberposts' => 1,
+		'lang'        => '',
+	) );
+	if ( ! $pages ) {
+		return powerco_home_url();
+	}
+	$id = $pages[0]->ID;
+	if ( function_exists( 'pll_get_post' ) ) {
+		$id = pll_get_post( $id ) ?: $id;
+	}
+	return get_permalink( $id );
+}
+
+/**
+ * Language dropdown (Polylang). Links to the current page in each language,
+ * or that language's homepage when the page isn't translated yet.
+ */
+function powerco_language_switcher() {
+	if ( ! function_exists( 'pll_the_languages' ) ) {
+		return;
+	}
+	$langs = pll_the_languages( array( 'raw' => 1, 'hide_if_no_translation' => 0 ) );
+	if ( ! $langs || count( $langs ) < 2 ) {
+		return;
+	}
+	$current = wp_list_filter( $langs, array( 'current_lang' => true ) );
+	$current = $current ? reset( $current ) : reset( $langs );
+	?>
+	<details class="lang-switcher">
+		<summary aria-label="<?php esc_attr_e( 'Language', 'powerco' ); ?>">
+			<img src="<?php echo esc_url( $current['flag'] ); ?>" alt="" width="16" height="11">
+			<?php echo esc_html( strtoupper( $current['slug'] ) ); ?>
+		</summary>
+		<ul>
+			<?php foreach ( $langs as $lang ) : ?>
+				<li<?php echo $lang['current_lang'] ? ' class="current"' : ''; ?>>
+					<a href="<?php echo esc_url( $lang['url'] ); ?>" lang="<?php echo esc_attr( $lang['locale'] ); ?>" hreflang="<?php echo esc_attr( $lang['locale'] ); ?>">
+						<img src="<?php echo esc_url( $lang['flag'] ); ?>" alt="" width="16" height="11">
+						<?php echo esc_html( $lang['name'] ); ?>
+					</a>
+				</li>
+			<?php endforeach; ?>
+		</ul>
+	</details>
+	<?php
 }
 
 /**
@@ -128,7 +207,7 @@ function powerco_fallback_menu() {
  * Breadcrumbs for inner pages.
  */
 function powerco_breadcrumbs() {
-	echo '<div class="breadcrumbs"><a href="' . esc_url( home_url( '/' ) ) . '">Home</a>';
+	echo '<div class="breadcrumbs"><a href="' . esc_url( powerco_home_url() ) . '">' . esc_html__( 'Home', 'powerco' ) . '</a>';
 	if ( is_page() ) {
 		foreach ( array_reverse( get_post_ancestors( get_the_ID() ) ) as $id ) {
 			echo ' / <a href="' . esc_url( get_permalink( $id ) ) . '">' . esc_html( get_the_title( $id ) ) . '</a>';
